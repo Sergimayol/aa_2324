@@ -26,7 +26,7 @@ class Perceptron:
         self.n_iter = n_iter
         self.w_ = None  # defined in method fit
 
-    def fit(self, X: np.ndarray, y: np.ndarray):
+    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         """Fit training data.
 
         Parameters
@@ -49,9 +49,7 @@ class Perceptron:
                 self.w_[1:] += update * xi
                 self.w_[0] += update
 
-        return self.w_
-
-    def predict(self, X: np.ndarray):
+    def predict(self, X: np.ndarray) -> np.ndarray:
         """Return class label.
         First calculate the output: (X * weights) + threshold
         Second apply the step function
