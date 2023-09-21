@@ -49,11 +49,14 @@ class Perceptron:
                 self.w_[1:] += update * xi
                 self.w_[0] += update
 
+    def __net_input(self, X: np.ndarray) -> np.ndarray:
+        """Calculate net input."""
+        return np.dot(X, self.w_[1:]) + self.w_[0]
+
     def predict(self, X: np.ndarray) -> np.ndarray:
         """Return class label.
         First calculate the output: (X * weights) + threshold
         Second apply the step function
         Return a list with classes
         """
-        res = np.dot(X, self.w_[1:]) + self.w_[0]
-        return np.where(res >= 0.0, 1, -1)
+        return np.where(self.__net_input(X) >= 0.0, 1, -1)
