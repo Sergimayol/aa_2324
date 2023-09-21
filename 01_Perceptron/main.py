@@ -4,9 +4,11 @@ from sklearn.datasets import make_classification
 from Perceptron import Perceptron
 
 
-def regression_line(w):
-    max_x = np.max(X) + 1
-    min_x = np.min(X) - 1
+def regression_line(w: np.ndarray[np.float64], max_x: float = 1, min_x: float = -1):
+    apox = lambda x: x if x != 0 else 0.00001
+    w[0] = apox(w[0])
+    w[1] = apox(w[1])
+    w[2] = apox(w[2])
     slope = -(w[0] / w[2]) / (w[0] / w[1])
     intercept = -w[0] / w[2]
     x_plot = np.linspace(min_x, max_x)
@@ -17,23 +19,23 @@ def regression_line(w):
 if __name__ == "__main__":
     # Generació del conjunt de mostres
     X, y = make_classification(
-        n_samples=100,
+        n_samples=1000,
         n_features=2,
         n_redundant=0,
         n_repeated=0,
         n_classes=2,
         n_clusters_per_class=1,
-        class_sep=1.25,
+        class_sep=1.75,
         random_state=0,
     )
 
     y[y == 0] = -1  # La nostra implementació esta pensada per tenir les classes 1 i -1.
 
-    perceptron = Perceptron(n_iter=150)
+    perceptron = Perceptron(n_iter=100)  # Creació del perceptron
     perceptron.fit(X, y)  # Ajusta els pesos
     y_prediction = perceptron.predict(X)  # Prediu
 
-    x_plot, y_plot = regression_line(perceptron.w_)
+    x_plot, y_plot = regression_line(perceptron.w_, np.max(X[:, 0]), np.min(X[:, 0]))
 
     #  Resultats
     plt.figure(1)
