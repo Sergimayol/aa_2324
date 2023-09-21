@@ -1,8 +1,8 @@
 import numpy as np
+from tqdm import tqdm
 
 
 class Perceptron:
-
     """Perceptron classifier.
 
     Parameters
@@ -27,7 +27,6 @@ class Perceptron:
         self.w_ = None  # defined in method fit
 
     def fit(self, X, y):
-
         """Fit training data.
 
         Parameters
@@ -37,24 +36,24 @@ class Perceptron:
             n_features is the number of features.
         y : array-like, shape = [n_samples]
             Target values.
-
-        Returns
-        -------
-        self : object
-
         """
-        self.w_ = np.zeros(1 + X.shape[1])  # First position corresponds to threshold
-
-        # TODO: Put your code (fit algorithm)
-
+        # First position corresponds to threshold
+        self.w_ = np.zeros(1 + X.shape[1])
+        for i in (t := tqdm(range(self.n_iter), leave=True, position=0)):
+            t.set_description(f"Epoch {i + 1}", refresh=True)
+            for xi, target in zip(X, y):
+                # Calculate the output: (X * weights) + threshold
+                output = self.predict(xi)
+                # Update weights
+                update = self.eta * (target - output)
+                self.w_[1:] += update * xi
+                self.w_[0] += update
 
     def predict(self, X):
         """Return class label.
-            First calculate the output: (X * weights) + threshold
-            Second apply the step function
-            Return a list with classes
+        First calculate the output: (X * weights) + threshold
+        Second apply the step function
+        Return a list with classes
         """
-
-        # TODO: Put your code
-
-        return np.random.randint(0, 2, size=X.shape[0])  # remove
+        res = np.dot(X, self.w_[1:]) + self.w_[0]
+        return np.where(res >= 0.0, 1, -1)
