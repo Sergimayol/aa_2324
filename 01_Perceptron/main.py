@@ -35,8 +35,8 @@ if __name__ == "__main__":
 
     y[y == 0] = -1  # La nostra implementació esta pensada per tenir les classes 1 i -1.
 
-    perceptron = Perceptron(n_iter=200)  # Creació del perceptron
-    perceptron.fit(X, y)  # Ajusta els pesos
+    perceptron = Perceptron(n_iter=100, verbose=True)  # Creació del perceptron
+    accs, errs = perceptron.fit(X, y)  # Ajusta els pesos
     y_prediction = perceptron.predict(X)  # Prediu
 
     x_plot, y_plot = regression_line(perceptron.w_, np.max(X[:, 0]), np.min(X[:, 0]))
@@ -50,4 +50,16 @@ if __name__ == "__main__":
     plt.title(f"Perceptron - Acurracy: {acurracy(y_prediction, y)}")
     plt.xlabel("X1")
     plt.ylabel("X2")
+
+    plt.figure(2)
+    plt.plot(accs, marker="o")
+    plt.title("Accuracy per epoch")
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy")
+
+    plt.figure(3)
+    plt.plot(errs, marker="o")
+    plt.title("Miss classifications per epoch")
+    plt.xlabel("Epochs")
+    plt.ylabel("Number of miss classifications")
     plt.show()
