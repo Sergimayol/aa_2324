@@ -1,4 +1,6 @@
+from tqdm import trange
 import numpy as np
+
 
 class Adaline:
     """ADAptive LInear NEuron classifier.
@@ -19,14 +21,15 @@ class Adaline:
         Error in each epoch.
 
     """
+
     def __init__(self, eta=0.01, n_iter=50):
         self.eta = eta
         self.n_iter = n_iter
-        self.cost_ = None
-        self.w_ = None
+        self.cost_ = []
+        self.w_ = np.zeros(1) # Avoid warnings
 
     def fit(self, X, y):
-        """ Fit training data.
+        """Fit training data.
 
         Parameters
         ----------
@@ -44,13 +47,17 @@ class Adaline:
         self.w_ = np.zeros(1 + X.shape[1])
         self.cost_ = []  # Per calcular el cost a cada iteració (EXTRA)
 
-        for _ in range(self.n_iter):
-            # TODO: PUT YOUR CODE HERE
+        for i in (t := trange(self.n_iter)):
+            out = self.predict(X)
+            err = y - out
+            self.w_[1:] += np.dot(X.T, err) * self.eta
+            self.w_[0] += np.sum(err) * self.eta
+            loss = np.sum(err**2) * 0.5
+            self.cost_.append(loss)
 
-    def net_output(self, X):
-        """Calculate net output"""
-        return np.dot(X, self.w_[1:]) + self.w_[0]
+            t.set_description(f"Epoch: {i+1}")
 
     def predict(self, X):
         """Return class label after unit step"""
-        return np.where(self.net_output(X) >= 0.0, 1, -1)
+        res = self.w_.T
+        return np.dot(X, res[1:]) + res[0]
