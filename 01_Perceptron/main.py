@@ -1,4 +1,4 @@
-"""Semana 1: Perceptro
+"""Semana 1: Perceptron
 
 * Ejecutar el programa:
 
