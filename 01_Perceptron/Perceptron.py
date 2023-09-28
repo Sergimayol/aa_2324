@@ -28,7 +28,7 @@ class Perceptron:
         self.__v = verbose
         self.errors_ = None  # defined in method fit
 
-    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
+    def fit(self, X: np.ndarray, y: np.ndarray) -> tuple[list, list]:
         """Fit training data.
 
         Parameters
@@ -73,6 +73,7 @@ class Perceptron:
 
     def __net_input(self, X: np.ndarray) -> np.ndarray:
         """Calculate net input."""
+        assert self.w_ is not None, "Weights are not defined"
         return np.dot(X, self.w_[1:]) + self.w_[0]
 
     def predict(self, X: np.ndarray) -> np.ndarray:
