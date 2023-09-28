@@ -1,4 +1,4 @@
-from tqdm import tqdm
+from tqdm import trange
 import numpy as np
 from numpy.random import seed
 
@@ -23,7 +23,6 @@ class Adaline(object):
         Shuffles training data every epoch if True to prevent cycles.
     random_state : int (default: None)
         Set random state for shuffling and initializing the weights.
-
     """
 
     def __init__(self, eta=0.01, n_iter=10, shuffle=True, random_state=None):
@@ -31,7 +30,7 @@ class Adaline(object):
         self.n_iter = n_iter
         self.shuffle = shuffle
         self.cost_ = []
-        self.w_ = np.zeros(1) # Avoid warnings
+        self.w_ = np.zeros(1)  # Avoid warnings
 
         if random_state:
             seed(random_state)
@@ -50,21 +49,19 @@ class Adaline(object):
         self.w_ = np.zeros(1 + X.shape[1])
         self.cost_ = []  # Per calcular el cost a cada iteració (EXTRA)
 
-        for i in (t := tqdm(range(self.n_iter))):
+        for i in (t := trange(self.n_iter)):
             if self.shuffle:
                 X, y = self.__shuffle(X, y)
             errs = []
             for xi, target in zip(X, y):
-                output = self.predict(xi)
-                err = target - output
+                err = target - self.predict(xi)
                 errs.append(err**2)
                 update = self.eta * err
                 self.w_[1:] += update * xi
                 self.w_[0] += update
-
             cost = np.sum(errs) * 0.5
             self.cost_.append(cost)
-            t.set_description(f"Epoch: {i+1}")
+            t.set_description(f"Epoch: {i+1}, Loss: {cost}")
 
     def __shuffle(self, X, y):
         """Shuffle training data"""

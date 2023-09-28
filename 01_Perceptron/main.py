@@ -1,3 +1,9 @@
+"""Semana 1: Perceptro
+
+* Ejecutar el programa:
+
+$ python main.py 
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification

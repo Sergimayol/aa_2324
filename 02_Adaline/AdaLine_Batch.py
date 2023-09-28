@@ -19,14 +19,13 @@ class Adaline:
         Weights after fitting.
     errors_ : list
         Error in each epoch.
-
     """
 
     def __init__(self, eta=0.01, n_iter=50):
         self.eta = eta
         self.n_iter = n_iter
         self.cost_ = []
-        self.w_ = np.zeros(1) # Avoid warnings
+        self.w_ = np.zeros(1)  # Avoid warnings
 
     def fit(self, X, y):
         """Fit training data.
@@ -38,24 +37,17 @@ class Adaline:
             n_features is the number of features.
         y : array-like, shape = [n_samples]
             Target values.
-
-        Returns
-        -------
-        self : object
-
         """
         self.w_ = np.zeros(1 + X.shape[1])
         self.cost_ = []  # Per calcular el cost a cada iteració (EXTRA)
 
         for i in (t := trange(self.n_iter)):
-            out = self.predict(X)
-            err = y - out
+            err = y - self.predict(X)
             self.w_[1:] += np.dot(X.T, err) * self.eta
             self.w_[0] += np.sum(err) * self.eta
             loss = np.sum(err**2) * 0.5
             self.cost_.append(loss)
-
-            t.set_description(f"Epoch: {i+1}")
+            t.set_description(f"Epoch: {i+1}, Loss: {loss}")
 
     def predict(self, X):
         """Return class label after unit step"""
