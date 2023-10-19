@@ -1,5 +1,5 @@
 from sklearn.datasets import make_classification
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score
 from sklearn.svm import SVC
@@ -42,6 +42,62 @@ if __name__ == "__main__":
 
     # Els dos algorismes es beneficien d'estandaritzar les dades
     scaler = MinMaxScaler() if USE_MIN_MAX else StandardScaler()
+
+    X_transformed = scaler.fit_transform(X_train)
+    X_test_transformed = scaler.transform(X_test)
+
+    # LINEAR
+    np_model = SVC(C=1.0, kernel="linear", random_state=33)
+    my_model = SVC(C=1.0, kernel=kernel_lineal, random_state=33)
+
+    np_model.fit(X_transformed, y_train)
+    np_y = np_model.predict(X_test_transformed)
+
+    my_model.fit(X_transformed, y_train)
+    my_y = my_model.predict(X_test_transformed)
+
+    print(
+        "Son iguales? =",
+        precision_score(np_y, my_y),
+        precision_score(y_test, my_y),
+        precision_score(y_test, np_y),
+    )
+
+    # GAUSSIAN
+    np_model = SVC(C=1.0, kernel="rbf", random_state=33)
+    my_model = SVC(C=1.0, kernel=kernel_gauss, random_state=33)
+
+    np_model.fit(X_transformed, y_train)
+    np_y = np_model.predict(X_test_transformed)
+
+    my_model.fit(X_transformed, y_train)
+    my_y = my_model.predict(X_test_transformed)
+
+    print(
+        "Son iguales? =",
+        precision_score(np_y, my_y),
+        precision_score(y_test, my_y),
+        precision_score(y_test, np_y),
+    )
+
+    # POLYNOMIAL
+    np_model = SVC(C=1.0, kernel="poly", random_state=33)
+    my_model = SVC(C=1.0, kernel=kernel_poly, random_state=33)
+
+    np_model.fit(X_transformed, y_train)
+    np_y = np_model.predict(X_test_transformed)
+
+    my_model.fit(X_transformed, y_train)
+    my_y = my_model.predict(X_test_transformed)
+
+    print(
+        "Son iguales? =",
+        precision_score(np_y, my_y),
+        precision_score(y_test, my_y),
+        precision_score(y_test, np_y),
+    )
+
+    scaler = PolynomialFeatures(degree=3)
 
     X_transformed = scaler.fit_transform(X_train)
     X_test_transformed = scaler.transform(X_test)
