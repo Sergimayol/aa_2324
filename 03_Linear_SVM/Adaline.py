@@ -25,7 +25,7 @@ class Adaline:
         self.n_iter = n_iter
 
     def fit(self, X, y):
-        """ Fit training data.
+        """ Fit training dat.
 
         Parameters
         ----------

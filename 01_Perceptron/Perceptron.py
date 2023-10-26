@@ -28,7 +28,8 @@ class Perceptron:
         self.__v = verbose
         self.errors_ = None  # defined in method fit
 
-    def fit(self, X: np.ndarray, y: np.ndarray) -> tuple[list, list]:
+    def fit(self, X, y):
+
         """Fit training data.
 
         Parameters

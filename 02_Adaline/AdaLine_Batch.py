@@ -28,7 +28,7 @@ class Adaline:
         self.w_ = np.zeros(1)  # Avoid warnings
 
     def fit(self, X, y):
-        """Fit training data.
+        """ Fit training dat.
 
         Parameters
         ----------
