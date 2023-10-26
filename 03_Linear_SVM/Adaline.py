@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import trange
 
 class Adaline:
     """ADAptive LInear NEuron classifier.
@@ -39,16 +40,18 @@ class Adaline:
         self : object
 
         """
-        self.w_ = np.zeros(1 + X.shape[1])
-        self.cost_ = []
 
-        for i in range(self.n_iter):
-            output = self.net_input(X)
-            errors = (y - output)
-            self.w_[1:] += self.eta * X.T.dot(errors)
-            self.w_[0]  += self.eta * errors.sum()
-            cost = (errors**2).sum() / 2.0
-            self.cost_.append(cost)
+        self.w_ = np.zeros(1 + X.shape[1])
+        self.cost_ = []  # Per calcular el cost a cada iteració (EXTRA)
+
+        for i in (t := trange(self.n_iter)):
+            err = y - self.predict(X)
+            self.w_[1:] += np.dot(X.T, err) * self.eta
+            self.w_[0] += np.sum(err) * self.eta
+            loss = np.sum(err**2) * 0.5
+            self.cost_.append(loss)
+            t.set_description(f"Epoch: {i+1}, Loss: {loss}")
+
         return self
 
     def net_input(self, X):
