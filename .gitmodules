@@ -1,0 +1,3 @@
+[submodule "Practica1/landscape-classifier"]
+	path = Practica1/landscape-classifier
+	url = https://github.com/Sergimayol/landscape-classifier.git
