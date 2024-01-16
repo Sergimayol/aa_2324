@@ -1,3 +1,6 @@
 [submodule "Practica1/landscape-classifier"]
 	path = Practica1/landscape-classifier
 	url = https://github.com/Sergimayol/landscape-classifier.git
+[submodule "Practica2/oxford-IIIT-pet-NNs"]
+	path = Practica2/oxford-IIIT-pet-NNs
+	url = https://github.com/Sergimayol/oxford-IIIT-pet-NNs.git
